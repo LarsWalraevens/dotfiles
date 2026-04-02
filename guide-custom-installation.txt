@@ -1,3 +1,5 @@
+Recommend to use install scripts instead, see root install & ./packages install
+
 DNF
 
 Get all packages currently installed on device
