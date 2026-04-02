@@ -1,0 +1,43 @@
+image=/home/lwrs/.config/images/locked.png
+
+# 🎯 Size
+indicator-radius=190
+indicator-thickness=18
+
+# 🔵 Fully transparent center
+inside-color=00000000
+inside-clear-color=00000000
+inside-ver-color=00000000
+inside-wrong-color=00000000
+inside-caps-lock-color=00000000
+
+# 🎨 Main ring (warm brown / gold tone from wallpaper)
+ring-color=C49A6CFF
+ring-clear-color=C49A6CFF
+
+# 🔵 Success / verify state (soft blue instead of green)
+ring-ver-color=5DADE2FF
+
+# 🔴 Wrong (ESC) state — softened
+# Option A: transparent black (preferred)
+# ring-wrong-color=00000066
+ring-wrong-color=00000033
+
+
+# If you prefer visible fallback instead, use this instead:
+# ring-wrong-color=7A5A2AFF
+
+ring-caps-lock-color=C49A6CFF
+
+# ✨ No lines / separators
+line-color=00000000
+separator-color=00000000
+
+# 🔤 Remove text
+font-size=0
+text-color=00000000
+text-clear-color=00000000
+text-ver-color=00000000
+text-wrong-color=00000000
+text-caps-lock-color=00000000
+disable-caps-lock-text
