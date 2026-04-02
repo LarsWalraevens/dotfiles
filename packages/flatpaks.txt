@@ -1,0 +1,6 @@
+app.zen_browser.zen
+com.discordapp.Discord
+com.github.IsmaelMartinez.teams_for_linux
+com.rtosta.zapzap
+io.dbeaver.DBeaverCommunity
+org.chromium.Chromium

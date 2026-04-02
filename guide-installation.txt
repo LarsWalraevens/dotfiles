@@ -1,0 +1,11 @@
+DNF
+
+Get all packages currently installed on device
+dnf repoquery --userinstalled > packages.txt
+
+Install later on other device
+sudo dnf install $(cat packages.txt)
+
+FLATPAK
+flatpak list --app --columns=application > flatpaks.txt
+flatpak install $(cat flatpaks.txt)
