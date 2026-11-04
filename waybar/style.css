@@ -35,7 +35,7 @@ button {
 
 #workspaces button:hover {
   background: #1e1e1e;
-  border: 0px solid transparent;
+  border: 3.5px solid #32b4fa;
 }
 
 #custom-window {

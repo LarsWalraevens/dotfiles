@@ -8,6 +8,17 @@
 // https://yalter.github.io/niri/Configuration:-Input
 
 prefer-no-csd
+
+// Keep startup applications on stable, numerically labelled workspaces.
+workspace "1"
+workspace "2"
+workspace "3"
+
+spawn-at-startup "alacritty" "--title" "T3 Terminal" "--option" "window.dynamic_title=false" "--working-directory" "/home/lwrs" "-e" "/home/lwrs/dotfiles/niri/run-t3.sh"
+spawn-at-startup "alacritty" "--title" "sudo"
+spawn-at-startup "/home/lwrs/dotfiles/niri/startup-workspace-1.sh"
+spawn-at-startup "flatpak" "run" "app.zen_browser.zen"
+spawn-at-startup "flatpak" "run" "io.dbeaver.DBeaverCommunity"
 spawn-at-startup "gammastep"
 spawn-at-startup "swww-daemon"
 spawn-at-startup "sh" "-c" "sleep 0.5 && swww img ~/.config/images/wallhaven-6ol1o6.jpg"
@@ -75,11 +86,13 @@ output "DP-2" {
 }
 
 output "HDMI-A-1" {
-	mode "1920x1080@60"	
+    mode "1920x1080@60"
+    position x=0 y=0
 }
 
 output "eDP-1" {
-	mode "1920x1080@60"	
+    mode "1920x1080@60"
+   position x=1920 y=0
 }
 
 
@@ -285,6 +298,26 @@ animations {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
+window-rule {
+    match at-startup=true app-id=r#"^Alacritty$"#
+    open-on-workspace "1"
+}
+
+window-rule {
+    match at-startup=true app-id=r#"^(t3tools.*|code)$"#
+    open-on-workspace "1"
+}
+
+window-rule {
+    match at-startup=true app-id=r#"^app\.zen_browser\.zen$"#
+    open-on-workspace "2"
+}
+
+window-rule {
+    match at-startup=true app-id=r#"^DBeaver$"#
+    open-on-workspace "3"
+}
+
 // Work around WezTerm's initial configure bugµ
 // by setting an empty default-column-width.
 window-rule {
@@ -304,6 +337,16 @@ window-rule {
 	match app-id="code"
     // match app-id=r#"zen$"#
 	open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^t3.*$"#
+    open-maximized true
+}
+
+window-rule {
+    match app-id=r#"^DBeaver$"#
+    open-maximized true
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -404,7 +447,7 @@ binds {
     Mod+O repeat=false { toggle-overview; }
     Mod+A repeat=false { toggle-overview; }
 
-    Mod+Q repeat=false { close-window; }
+    Mod+Shift+Q repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
     Mod+Shift+Left  { focus-column-left; }
@@ -420,11 +463,13 @@ binds {
     // Mod+L     { focus-column-right; }
 
     Mod+Ctrl+Left  { move-column-left; }
+    Mod+Shift+Ctrl+Left  { move-column-left; }
     Mod+Ctrl+Down  { move-window-down; }
     Mod+Ctrl+Up    { move-window-up; }
     //Mod+Ctrl+Up    { move-window-up-or-to-workspace-up; }
     //Mod+Ctrl+Down  { move-window-down-or-to-workspace-down; }
     Mod+Ctrl+Right { move-column-right; }
+    Mod+Shift+Ctrl+Right { move-column-right; }
     Mod+Ctrl+H     { move-column-left; }
     Mod+Ctrl+J     { move-window-down; }
     Mod+Ctrl+K     { move-window-up; }
@@ -436,8 +481,8 @@ binds {
     // Mod+K     { focus-window-or-workspace-up; }
     // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
     // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
-    Mod+Alt+Up     { move-window-up; }
-    Mod+Alt+Down     { move-window-down; }
+    //Mod+Alt+Up     { move-window-up; }
+    //Mod+Alt+Down     { move-window-down; }
 
 
     // Mod+U              { focus-workspace-down; }
@@ -450,25 +495,32 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    //Mod+Shift+Left  { focus-monitor-left; }
     Mod+Alt+Left  { focus-monitor-left; }
-    // Mod+Shift+Down  { focus-monitor-down; }
-    Mod+Shift+Down  { focus-workspace-down; }
-    // Mod+Shift+Up    { focus-monitor-up; }
-    Mod+Shift+Up    { focus-workspace-up; }
-    //Mod+Shift+Right { focus-monitor-right; }
+    Mod+Alt+Down  { focus-monitor-down; }
+    Mod+Alt+Up    { focus-monitor-up; }
     Mod+Alt+Right { focus-monitor-right; }
+
+	
+	Mod+Shift+Down  { focus-workspace-down; }
+	Mod+Shift+Up    { focus-workspace-up; }
+    
     Mod+Shift+H     { focus-monitor-left; }
     Mod+Shift+J     { focus-monitor-down; }
     Mod+Shift+K     { focus-monitor-up; }
     Mod+Shift+L     { focus-monitor-right; }
 
-    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+Up    { move-column-to-workspace-up; }
-    Mod+Shift+Ctrl+Down  { move-column-to-workspace-down; }
-    //Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-    //Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    //Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    //Mod+Shift+Ctrl+Up    { move-column-to-workspace-up; }
+    //Mod+Shift+Ctrl+Down  { move-column-to-workspace-down; }
+    Mod+Ctrl+Shift+Up    { move-column-to-workspace-up; }
+    Mod+Ctrl+Shift+Down  { move-column-to-workspace-down; }
+    //Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    
+    Mod+Ctrl+Alt+Left  { move-column-to-monitor-left; }
+    Mod+Ctrl+Alt+Up    { move-column-to-workspace-up; }
+    Mod+Ctrl+Alt+Down  { move-column-to-workspace-down; }
+    Mod+Ctrl+Alt+Right { move-column-to-monitor-right; }
+    
     Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
     Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
@@ -540,26 +592,25 @@ binds {
     //
     // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
     // will all refer to the 3rd workspace.
+	Mod+ampersand { focus-workspace 1; }
+	Mod+eacute    { focus-workspace 2; }
+	Mod+quotedbl  { focus-workspace 3; }
+	Mod+apostrophe{ focus-workspace 4; }
+	Mod+parenleft { focus-workspace 5; }
+	Mod+section   { focus-workspace 6; }
+	Mod+egrave    { focus-workspace 7; }
+	Mod+exclam    { focus-workspace 8; }
+	Mod+ccedilla  { focus-workspace 9; }
 
-   	Mod+ampersand { focus-workspace 1; }
-   	Mod+eacute    { focus-workspace 2; }
-   	Mod+quotedbl  { focus-workspace 3; }
-   	Mod+apostrophe{ focus-workspace 4; }
-   	Mod+parenleft { focus-workspace 5; }
-   	Mod+section   { focus-workspace 6; }
-   	Mod+egrave    { focus-workspace 7; }
-   	Mod+exclam    { focus-workspace 8; }
-   	Mod+ccedilla  { focus-workspace 9; }
-   	
-    Mod+Ctrl+1 { move-column-to-workspace 1; }
-    Mod+Ctrl+2 { move-column-to-workspace 2; }
-    Mod+Ctrl+3 { move-column-to-workspace 3; }
-    Mod+Ctrl+4 { move-column-to-workspace 4; }
-    Mod+Ctrl+5 { move-column-to-workspace 5; }
-    Mod+Ctrl+6 { move-column-to-workspace 6; }
-    Mod+Ctrl+7 { move-column-to-workspace 7; }
-    Mod+Ctrl+8 { move-column-to-workspace 8; }
-    Mod+Ctrl+9 { move-column-to-workspace 9; }
+	Mod+Ctrl+ampersand { move-column-to-workspace 1; }
+	Mod+Ctrl+eacute    { move-column-to-workspace 2; }
+	Mod+Ctrl+quotedbl  { move-column-to-workspace 3; }
+	Mod+Ctrl+apostrophe{ move-column-to-workspace 4; }
+	Mod+Ctrl+parenleft { move-column-to-workspace 5; }
+	Mod+Ctrl+section   { move-column-to-workspace 6; }
+	Mod+Ctrl+egrave    { move-column-to-workspace 7; }
+	Mod+Ctrl+exclam    { move-column-to-workspace 8; }
+	Mod+Ctrl+ccedilla  { move-column-to-workspace 9; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
