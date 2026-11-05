@@ -27,4 +27,7 @@ link "waybar" "$HOME/.config/waybar"
 link "sunsetr" "$HOME/.config/sunsetr"
 link "swaylock" "$HOME/.config/swaylock"
 
+# Global agent skills (Codex and Claude Code, including T3 Code).
+bash "$DOTFILES/agentic-coding/install-skills.sh"
+
 echo "✅ All symlinks installed!"
